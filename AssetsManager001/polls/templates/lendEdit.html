@@ -1,0 +1,35 @@
+{% extends "main_.html" %}
+
+{% block extra_head %}
+
+{% endblock %}
+
+{% block content %}
+<center><h1>{{ title }}</h1></center>
+{% if lend %}
+<form method="POST" action="{% url 'polls:lendEdit' lend.id %}" class="form-horizontal">
+{% else %}
+<form method="POST" action="{% url 'polls:lendAdd' %}" class="form-horizontal">
+    {% endif %}
+    {% csrf_token %}
+    <center>
+        <ul>
+            {% for error in form.non_field_errors %}
+            {% endfor %}
+        </ul>
+        <div class="form-group">
+            <table>
+                {{ form_.media }}
+                {{ form.as_table }}
+            </table>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-secondary">{{ button_name }}</button>
+            <a href="{% url 'polls:lend' %}" class="btn btn-secondary">キャンセル</a>
+        </div>
+    </center>
+</form>
+
+
+
+{% endblock %}

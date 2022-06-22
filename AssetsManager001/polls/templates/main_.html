@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+
+
+{% block title %}貸出情報管理システム{% endblock %}
+
+{% block stylesheets %}
+    {% include '_styles.html' %}
+    {% block style_sheets %}{% endblock %}
+{% endblock %}
+
+{% block nav_header %}
+    {% include '_main_header.html' %}
+{% endblock %}
+
+{% block nav_sidebar %}
+    {% include '_main_sidebar.html' %}
+{% endblock %}
+
+{% block messages %}
+    {% include '_messages.html' %}
+{% endblock %}
+
+{% block nav_footer %}
+    {% include '_main_footer.html' %}
+{% endblock %}
+
+{% block javascript %}
+{% include '_scripts.html' %}
+{% block js %}{% endblock %}
+{% endblock %}

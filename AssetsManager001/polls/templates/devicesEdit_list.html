@@ -1,0 +1,20 @@
+{% extends "main_.html" %}
+
+
+
+{% block content %}
+<h1>Devicesモデル</h1>
+<p>{{ message }}</p>
+    <table border="1">
+        <tr>
+            <th>device_id</th>
+            <th>maker</th>
+        </tr>
+        {% for device in data %}
+        <tr>
+            <td>{{ device.device_id }}</td>
+            <td>{{ device.maker }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

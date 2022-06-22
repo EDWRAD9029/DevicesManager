@@ -1,0 +1,143 @@
+{% extends "main_.html" %}
+
+
+{% block content %}
+<h4>貸出情報一覧</h4>
+<form class="" action="{% url 'polls:lendDelete' %}" method="post">
+{% csrf_token %}
+<div class="card-footer">
+    <div>
+        <a href="{% url 'polls:lendAdd' %}" class="btn btn-primary">追加</a>
+        <input type="submit" class="btn btn-success" name="button" value="更新">
+    </div>
+</div>
+
+<table class="bordered table">
+    <tr>
+        <th></th>
+        <th>
+            {% if Sorts.user_id__user_id1 %}
+            <font color="red">社員番号</font>
+            <a href="{% url 'polls:lendSort' 1 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.user_id__user_id2 %}
+            <font color="red">社員番号</font>
+            <a href="{% url 'polls:lendSort' 0 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            社員番号
+            <a href="{% url 'polls:lendSort' 0 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            {% if Sorts.user_id__name1 %}
+            <font color="red">氏名</font>
+            <a href="{% url 'polls:lendSort' 3 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.user_id__name2 %}
+            <font color="red">氏名</font>
+            <a href="{% url 'polls:lendSort' 2 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            氏名
+            <a href="{% url 'polls:lendSort' 2 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            {% if Sorts.device_id__device_id1 %}
+            <font color="red">機器番号</font>
+            <a href="{% url 'polls:lendSort' 5 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.device_id__device_id2 %}
+            <font color="red">機器番号</font>
+            <a href="{% url 'polls:lendSort' 4 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            機器番号
+            <a href="{% url 'polls:lendSort' 4 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            {% if Sorts.rental_start1 %}
+            <font color="red">貸出日</font>
+            <a href="{% url 'polls:lendSort' 7 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.rental_start2 %}
+            <font color="red">貸出日</font>
+            <a href="{% url 'polls:lendSort' 6 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            貸出日
+            <a href="{% url 'polls:lendSort' 6 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            {% if Sorts.rental_limit1 %}
+            <font color="red">返却予定日</font>
+            <a href="{% url 'polls:lendSort' 9 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.rental_limit2 %}
+            <font color="red">返却予定日</font>
+            <a href="{% url 'polls:lendSort' 8 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            返却予定日
+            <a href="{% url 'polls:lendSort' 8 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            利用状況
+            {% if Sorts.status_use1 %}
+            <a href="{% url 'polls:lendSort' 102 %}"><font color="red">(利用予定)</font></a>
+            {% elif Sorts.status_use2 %}
+            <a href="{% url 'polls:lendSort' 103 %}"><font color="red">(利用中)</font></a>
+            {% elif Sorts.status_use3 %}
+            <a href="{% url 'polls:lendSort' 101 %}"><font color="red">(利用中（期限超過）)</font></a>
+            {% else %}
+            <a href="{% url 'polls:lendSort' 101 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            {% if Sorts.registration_date1 %}
+            <font color="red">申請日</font>
+            <a href="{% url 'polls:lendSort' 11 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.registration_date2 %}
+            <font color="red">申請日</font>
+            <a href="{% url 'polls:lendSort' 10 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            申請日
+            <a href="{% url 'polls:lendSort' 10 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+    </tr>
+    {% if lend_list %}
+        {% for lend in lend_list %}
+        {% if not lend.delete_flag %}
+            <tr>
+                <td>
+                <a href="{% url 'polls:lendEdit' lend.id %}">
+                    <p>編集</p>
+                </a>
+                </td>
+                <td>{{ lend.user_id.user_id }}</td>
+                <td>{{ lend.user_id.name }}</td>
+                <td>{{ lend.device_id.device_id }}</td>
+                <td>{{ lend.rental_start|date:"Y/n/j" }}</td>
+                <td>{{ lend.rental_limit|date:"Y/n/j" }}</td>
+                <td>
+                <select id="id_use" class="form-control" name="status_use">
+                    {% if lend.rental_start >= today %}
+                        <option value=("利用予定"+{{ lend.id }}) selected>利用予定</option>
+                        <option value=("返却済"+{{ lend.id }})>予約取り消し</option>
+                    {% else %}
+                        {% if lend.rental_limit <= today %}
+                            <option value=("利用中（期限超過）"+{{ lend.id }}) selected>利用中（期限超過）</option>
+                            <option value=("返却済"+{{ lend.id }})>返却済</option>
+                        {% else %}
+                            <option value=("利用中"+{{ lend.id }}) selected>利用中</option>
+                            <option value=("返却済"+{{ lend.id }})>返却済</option>
+                        {% endif %}
+                    {% endif %}
+                 </select>
+                </td>
+                <td>{{ lend.registration_date|date:"Y/n/j" }}</td>
+            </tr>
+        {% endif %}
+        {% endfor %}
+    {% else %}
+         <td>存在しません</td>
+    {% endif %}
+</table>
+</form>
+
+{% endblock %}

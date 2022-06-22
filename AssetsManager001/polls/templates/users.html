@@ -1,0 +1,206 @@
+{% extends "main_.html" %}
+
+
+{% block content %}
+<h4>社員一覧</h4>
+<form class="" action="{% url 'polls:usersDelete' %}" method="post">
+{% csrf_token %}
+<div class="card-footer">
+  <a href="{% url 'polls:usersEdit' 0 %}" class="btn btn-primary">追加</a>
+  <input type="submit" class="btn btn-danger" name="button" value="削除">
+</div>
+
+<table class="bordered table">
+    <tr>
+        <th></th>
+        <th></th>
+        <th>
+            {% if Sorts.user_id1 %}
+            <font color="red">社員番号</font>
+            <a href="{% url 'polls:usersSort' 1 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.user_id2 %}
+            <font color="red">社員番号</font>
+            <a href="{% url 'polls:usersSort' 0 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            社員番号
+            <a href="{% url 'polls:usersSort' 0 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            {% if Sorts.name1 %}
+            <font color="red">氏名</font>
+            <a href="{% url 'polls:usersSort' 3 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.name2 %}
+            <font color="red">氏名</font>
+            <a href="{% url 'polls:usersSort' 2 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            氏名
+            <a href="{% url 'polls:usersSort' 2 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            {% if Sorts.department1 %}
+            <font color="red">所属部署</font>
+            <a href="{% url 'polls:usersSort' 5 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.department2 %}
+            <font color="red">所属部署</font>
+            <a href="{% url 'polls:usersSort' 4 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            所属部署
+            <a href="{% url 'polls:usersSort' 4 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            {% if Sorts.tel_number1 %}
+            <font color="red">電話番号</font>
+            <a href="{% url 'polls:usersSort' 7 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.tel_number2 %}
+            <font color="red">電話番号</font>
+            <a href="{% url 'polls:usersSort' 6 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            電話番号
+            <a href="{% url 'polls:usersSort' 6 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            {% if Sorts.mail_address1 %}
+            <font color="red">メール</font>
+            <a href="{% url 'polls:usersSort' 9 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.mail_address2 %}
+            <font color="red">メール</font>
+            <a href="{% url 'polls:usersSort' 8 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            メール
+            <a href="{% url 'polls:usersSort' 8 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            {% if Sorts.age1 %}
+            <font color="red">年齢</font>
+            <a href="{% url 'polls:usersSort' 11 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.age2 %}
+            <font color="red">年齢</font>
+            <a href="{% url 'polls:usersSort' 10 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            年齢
+            <a href="{% url 'polls:usersSort' 10 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            性別
+            {% if Sorts.gender1 %}
+            <a href="{% url 'polls:usersSort' 202 %}"><font color="red">男性</font></a>
+            {% elif Sorts.gender2 %}
+            <a href="{% url 'polls:usersSort' 203 %}"><font color="red">女性</font></a>
+            {% elif Sorts.gender3 %}
+            <a href="{% url 'polls:usersSort' 201 %}"><font color="red">無回答</font></a>
+            {% else %}
+            <a href="{% url 'polls:usersSort' 201 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            {% if Sorts.position1 %}
+            <font color="red">役職</font>
+            <a href="{% url 'polls:usersSort' 13 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.position2 %}
+            <font color="red">役職</font>
+            <a href="{% url 'polls:usersSort' 12 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            役職
+            <a href="{% url 'polls:usersSort' 12 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            利用状況
+            {% if Sorts.status_use1 %}
+            <a href="{% url 'polls:usersSort' 102 %}"><font color="red">利用予定</font></a>
+            {% elif Sorts.status_use2 %}
+            <a href="{% url 'polls:usersSort' 103 %}"><font color="red">利用中</font></a>
+            {% elif Sorts.status_use3 %}
+            <a href="{% url 'polls:usersSort' 104 %}"><font color="red">利用中（期限超過）</font></a>
+            {% elif Sorts.status_use4 %}
+            <a href="{% url 'polls:usersSort' 101 %}"><font color="red">非利用者</font></a>
+            {% else %}
+            <a href="{% url 'polls:usersSort' 101 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+    </tr>
+    {% if user_list %}
+        {% for user in user_list %}
+        {% if not user.delete_flag %}
+            <tr>
+                <td>
+                    <label>
+                    {% if not user.rental_start %}
+                        <input type="checkbox" name="delete" value={{ user.id }}>
+                    {% else %}
+                        {% if user.rental_end %}
+                            <input type="checkbox" name="delete" value={{ user.id }}>
+                        {% else %}
+                            <input type="checkbox" name="delete" value={{ user.id }} disabled="disabled">
+                        {% endif %}
+                    {% endif %}
+                    </label>
+                </td>
+                <td>
+                <a href="{% url 'polls:usersEdit' user.id %}">
+                    <p>編集</p>
+                </a>
+                </td>
+                <td>{{ user.user_id }}</td>
+                <td>{{ user.name }}</td>
+                <td>
+                {% if user.department %}
+                    {{ user.department }}
+                {% endif %}
+                </td>
+                <td>
+                {% if user.tel_number %}
+                    {{ user.tel_number }}
+                {% endif %}
+                </td>
+                <td>
+                {% if user.mail_address %}
+                    {{ user.mail_address }}
+                {% endif %}
+                </td>
+                <td>
+                {% if user.age %}
+                    {{ user.age }}
+                {% endif %}
+                </td>
+                <td>{{ user.gender }}</td>
+                <td>
+                {% if user.position %}
+                    {{ user.position }}
+                {% endif %}
+                </td>
+                <td>
+                {% if not user.rental_start %}
+                    
+                {% else %}
+                    {% if user.rental_end %}
+                        
+                    {% else %}
+                        {% if user.rental_start >= today %}
+                            利用予定
+                        {% else %}
+                            {% if today <= user.rental_limit %}
+                                利用中
+                            {% else %}
+                                利用中（期限超過）
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+                </td>
+            </tr>
+        {% endif %}
+        {% endfor %}
+    {% else %}
+         <td>存在しません</td>
+    {% endif %}
+</table>
+</form>
+
+{% endblock %}

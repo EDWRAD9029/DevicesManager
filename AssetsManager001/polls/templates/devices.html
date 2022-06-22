@@ -1,0 +1,265 @@
+{% extends "main_.html" %}
+
+
+
+{% block content %}
+<h4>機器一覧</h4>
+<form class="" action="{% url 'polls:devicesDelete' %}" method="post">
+{% csrf_token %}
+<div class="card-footer">
+  <a href="{% url 'polls:devicesEdit' 0 %}" class="btn btn-primary">追加</a>
+  <input type="submit" class="btn btn-danger" name="button" value="削除">
+</div>
+
+<table class="bordered table">
+    <tr>
+        <th></th>
+        <th></th>
+        <th>
+            {% if Sorts.device_id1 %}
+            <font color="red">機器番号</font>
+            <a href="{% url 'polls:devicesSort' 1 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.device_id2 %}
+            <font color="red">機器番号</font>
+            <a href="{% url 'polls:devicesSort' 0 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            機器番号
+            <a href="{% url 'polls:devicesSort' 0 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            {% if Sorts.maker1 %}
+            <font color="red">メーカ</font>
+            <a href="{% url 'polls:devicesSort' 3 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.maker2 %}
+            <font color="red">メーカ</font>
+            <a href="{% url 'polls:devicesSort' 2 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            メーカ
+            <a href="{% url 'polls:devicesSort' 2 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            {% if Sorts.OS1 %}
+            <font color="red">OS</font>
+            <a href="{% url 'polls:devicesSort' 5 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.OS2 %}
+            <font color="red">OS</font>
+            <a href="{% url 'polls:devicesSort' 4 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            OS
+            <a href="{% url 'polls:devicesSort' 4 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            {% if Sorts.memory1 %}
+            <font color="red">メモリ</font>
+            <a href="{% url 'polls:devicesSort' 7 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.memory2 %}
+            <font color="red">メモリ</font>
+            <a href="{% url 'polls:devicesSort' 6 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            メモリ
+            <a href="{% url 'polls:devicesSort' 6 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            {% if Sorts.storage1 %}
+            <font color="red">容量</font>
+            <a href="{% url 'polls:devicesSort' 9 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.storage2 %}
+            <font color="red">容量</font>
+            <a href="{% url 'polls:devicesSort' 8 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            容量
+            <a href="{% url 'polls:devicesSort' 8 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            {% if Sorts.CPU1 %}
+            <font color="red">CPU</font>
+            <a href="{% url 'polls:devicesSort' 11 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.CPU2 %}
+            <font color="red">CPU</font>
+            <a href="{% url 'polls:devicesSort' 10 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            CPU
+            <a href="{% url 'polls:devicesSort' 10 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            {% if Sorts.GPU1 %}
+            <font color="red">GPU</font>
+            <a href="{% url 'polls:devicesSort' 13 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.GPU2 %}
+            <font color="red">GPU</font>
+            <a href="{% url 'polls:devicesSort' 12 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            GPU
+            <a href="{% url 'polls:devicesSort' 12 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            {% if Sorts.inventory1 %}
+            <font color="red">保管場所</font>
+            <a href="{% url 'polls:devicesSort' 15 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.inventory2 %}
+            <font color="red">保管場所</font>
+            <a href="{% url 'polls:devicesSort' 14 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            保管場所
+            <a href="{% url 'polls:devicesSort' 14 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            {% if Sorts.broken_flag1 %}
+            <font color="red">故障</font>
+            <a href="{% url 'polls:devicesSort' 17 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.broken_flag2 %}
+            <font color="red">故障</font>
+            <a href="{% url 'polls:devicesSort' 16 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            故障
+            <a href="{% url 'polls:devicesSort' 16 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            {% if Sorts.rental_start1 %}
+            <font color="red">貸出日</font>
+            <a href="{% url 'polls:devicesSort' 202 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.rental_start2 %}
+            <font color="red">貸出日</font>
+            <a href="{% url 'polls:devicesSort' 201 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            貸出日
+            <a href="{% url 'polls:devicesSort' 201 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            {% if Sorts.rental_limit1 %}
+            <font color="red">返却予定日</font>
+            <a href="{% url 'polls:devicesSort' 302 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.rental_limit2 %}
+            <font color="red">返却予定日</font>
+            <a href="{% url 'polls:devicesSort' 301 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            返却予定日
+            <a href="{% url 'polls:devicesSort' 301 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            {% if Sorts.registration_date1 %}
+            <font color="red">機器登録日</font>
+            <a href="{% url 'polls:devicesSort' 19 %}"><ion-icon name="arrow-down-outline"></ion-icon></a>
+            {% elif Sorts.registration_date2 %}
+            <font color="red">機器登録日</font>
+            <a href="{% url 'polls:devicesSort' 18 %}"><ion-icon name="arrow-up-outline"></ion-icon></a>
+            {% else %}
+            機器登録日
+            <a href="{% url 'polls:devicesSort' 18 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>
+            貸出状況
+            {% if Sorts.status_use1 %}
+            <a href="{% url 'polls:devicesSort' 102 %}"><font color="red">貸出予定</font></a>
+            {% elif Sorts.status_use2 %}
+            <a href="{% url 'polls:devicesSort' 103 %}"><font color="red">貸出中</font></a>
+            {% elif Sorts.status_use3 %}
+            <a href="{% url 'polls:devicesSort' 104 %}"><font color="red">貸出中（期限超過）</font></a>
+            {% elif Sorts.status_use4 %}
+            <a href="{% url 'polls:devicesSort' 101 %}"><font color="red">空</font></a>
+            {% else %}
+            <a href="{% url 'polls:devicesSort' 101 %}"><ion-icon name="swap-vertical-outline"></ion-icon></a>
+            {% endif %}
+        </th>
+        <th>備考</th>
+    </tr>
+    {% if device_list %}
+        {% for device in device_list %}
+        {% if not device.delete_flag %}
+            <tr>
+                <td>
+                    <label>
+                    {% if not device.rental_start %}
+                        <input type="checkbox" name="delete" value={{ device.id }}>
+                    {% else %}
+                        {% if device.rental_end %}
+                            <input type="checkbox" name="delete" value={{ device.id }}>
+                        {% else %}
+                            <input type="checkbox" name="delete" value={{ device.id }} disabled="disabled">
+                        {% endif %}
+                    {% endif %}
+                    </label>
+                </td>
+                <td>
+                <a href="{% url 'polls:devicesEdit' device.id %}">
+                    <p>編集</p>
+                </a>
+                </td>
+                <td>{{ device.device_id }}</td>
+                <td>
+                {% if device.maker %}
+                    {{ device.maker }}
+                {% endif %}
+                </td>
+                <td>
+                {% if device.OS %}
+                    {{ device.OS }}
+                {% endif %}
+                </td>
+                <td>
+                {% if device.memory %}
+                    {{ device.memory }}
+                {% endif %}
+                </td>
+                <td>
+                {% if device.storage %}
+                    {{ device.storage }}
+                {% endif %}
+                </td>
+                <td>
+                {% if device.CPU %}
+                    {{ device.CPU }}
+                {% endif %}
+                </td>
+                <td>
+                {% if device.GPU %}
+                    {{ device.GPU }}
+                {% endif %}
+                </td>
+                <td>{{ device.inventory }}</td>
+                <td>{{ device.broken_flag }}</td>
+                <td>{{ device.rental_start|date:"Y/n/j" }}</td>
+                <td>{{ device.rental_limit|date:"Y/n/j" }}</td>
+                <td>{{ device.registration_date|date:"Y/n/j" }}</td>
+                <td>
+                {% if not device.rental_start %}
+                    空
+                {% else %}
+                    {% if device.rental_end %}
+                        空
+                    {% else %}
+                        {% if device.rental_start >= today %}
+                            貸出予定
+                        {% else %}
+                            {% if today <= device.rental_limit %}
+                                貸出中
+                            {% else %}
+                                貸出中（期限超過）
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+                </td>
+                <td>{{ device.remarks }}</td>
+            </tr>
+        {% endif %}
+        {% endfor %}
+    {% else %}
+         <td>存在しません</td>
+    {% endif %}
+</table>
+</form>
+
+{% endblock %}

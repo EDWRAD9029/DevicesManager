@@ -1,0 +1,26 @@
+{% extends "main_.html" %}
+
+
+
+{% block content %}
+<center><h1>{{ title }}</h1></center>
+{% if device_ %}
+<form method="POST" action="{% url 'polls:devicesEdit' device_.id %}" class="form-horizontal">
+{% else %}
+<form method="POST" action="{% url 'polls:devicesEdit' 0 %}" class="form-horizontal">
+    {% endif %}
+    {% csrf_token %}
+    <center>
+        <div class="form-group">
+            <table>
+            {{ form.as_table }}
+            </table>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-secondary">{{ button_name }}</button>
+            <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">キャンセル</a>
+        </div>
+    </center>
+</form>
+
+{% endblock %}
